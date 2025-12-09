@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile - {{name}}</title>
+</head>
+<body>
+<h1>User Profile</h1>
+
+<div>
+    <p><strong>Name:</strong> {{name}}</p>
+    <p><strong>Username:</strong> {{username}}</p>
+    <p><strong>Email:</strong> {{email}}</p>
+
+    {{#bio}}
+        <p><strong>Bio:</strong> {{bio}}</p>
+    {{/bio}}
+
+    {{^bio}}
+        <p><em>No bio available.</em></p>
+    {{/bio}}
+</div>
+</body>
+</html>

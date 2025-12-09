@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Two Forms Example</title>
+</head>
+<body>
+
+<h2>Search</h2>
+<form action="/search" method="get">
+    <label>Query:</label>
+    <input type="text" name="query" required><br><br>
+
+    <label>Hashtag:</label>
+    <input type="email" name="hashtag" required><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<h2>Form 1: Contact Us</h2>
+<form action="/contact1" method="post">
+    <label>Name:</label>
+    <input type="text" name="name" required><br><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" required><br><br>
+
+    <label>Message:</label><br>
+    <textarea name="message" rows="4" cols="50" required></textarea><br><br>
+
+    <button type="submit">Send Message</button>
+</form>
+
+<hr/>
+
+<h2>Form 2: Contact Us</h2>
+<form action="/contact2" method="post">
+    <label>Name:</label>
+    <input type="text" name="name" required><br><br>
+
+    <label>Email:</label>
+    <input type="email" name="email" required><br><br>
+
+    <label>Message:</label><br>
+    <textarea name="message" rows="4" cols="50" required></textarea><br><br>
+
+    <button type="submit">Send Message</button>
+</form>
+
+<h2>Form 3: Upload File</h2>
+<form action="/upload-file" method="post" enctype="multipart/form-data">
+    <input type="text" name="username" placeholder="Username" /><br/><br/>
+    <input type="email" name="email" placeholder="Email" /><br/><br/>
+    <input type="file" name="profilePic" /><br/><br/>
+    <button type="submit">Upload</button>
+</form>
+
+
+</body>
+</html>
