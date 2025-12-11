@@ -7,7 +7,7 @@ import io.wulfcodes.library.model.dto.LoanData;
 
 public interface LoanService {
     void issueBook(Long userId, Long bookId, LocalDate dueDate);
-    void returnBook(Long loanId);
+    void returnBook(Long loanId, Long bookId);
     List<LoanData> getAllIssuedBooks(boolean detailed);
     List<LoanData> getIssuedBooksByUserId(Long userId);
     CompletableFuture<Long> getIssuedBooksCountAsync();

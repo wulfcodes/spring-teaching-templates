@@ -69,4 +69,9 @@ public class LoanDao {
         return jdbcTemplate.queryForObject(query, Long.class);
     }
 
+    public void removeLoanById(Long loanId) {
+        String query = "DELETE FROM loans WHERE loan_id = ?";
+        jdbcTemplate.update(query, loanId);
+    }
+
 }

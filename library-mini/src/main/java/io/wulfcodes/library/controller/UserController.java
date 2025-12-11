@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import io.wulfcodes.library.model.dto.UserData;
 import io.wulfcodes.library.service.spec.UserService;
@@ -32,6 +33,21 @@ public class UserController {
     public String usersPage(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "view-users";
+    }
+
+    @PostMapping("/add")
+    public String addUser() {
+        return null;
+    }
+
+    @PostMapping("/edit")
+    public String editUser() {
+        return null;
+    }
+
+    @PostMapping("/remove")
+    public String removeUser() {
+        return null;
     }
 
 }

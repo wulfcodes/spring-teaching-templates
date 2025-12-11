@@ -1,10 +1,8 @@
 package io.wulfcodes.library.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,7 +44,6 @@ public class AuthController {
         @ModelAttribute
         AuthData authData,
         HttpSession httpSession,
-        Model model,
         RedirectAttributes redirectAttributes
     ) {
         UserData userData = (UserData)httpSession.getAttribute("userData");

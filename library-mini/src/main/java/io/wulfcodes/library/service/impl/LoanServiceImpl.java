@@ -51,8 +51,9 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public void returnBook(Long loanId) {
-
+    public void returnBook(Long loanId, Long bookId) {
+        bookService.increaseAvailableBooks(bookId);
+        loanDao.removeLoanById(loanId);
     }
 
     @Override

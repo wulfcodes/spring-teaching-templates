@@ -31,15 +31,30 @@ public class BookController {
         return LocalDate.now().getYear();
     }
 
+    @ModelAttribute("user")
+    public UserData user(HttpSession httpSession) {
+        return (UserData) httpSession.getAttribute("userData");
+    }
+
+    @PostMapping("/add")
+    public String addBook() {
+        return null;
+    }
+
+    @PostMapping("/edit")
+    public String editBook() {
+        return null;
+    }
+
+    @PostMapping("/remove")
+    public String removeBook() {
+        return null;
+    }
+
     @GetMapping("/issue")
     public String issuePage(Model model) {
         model.addAttribute("books", bookService.getAvailableBooks());
         return "issue-book";
-    }
-
-    @ModelAttribute("user")
-    public UserData user(HttpSession httpSession) {
-        return (UserData) httpSession.getAttribute("userData");
     }
 
     @PostMapping("/issue")
@@ -76,6 +91,23 @@ public class BookController {
     public String returnPage(@ModelAttribute("user") UserData userData, Model model) {
         model.addAttribute("loans", loanService.getIssuedBooksByUserId(userData.getUserId()));
         return "return-book";
+    }
+
+    @PostMapping("/return")
+    public String returnBook(
+        @RequestParam("loanId")
+        Long loanId,
+        @RequestParam("bookId")
+        Long bookId,
+        RedirectAttributes redirectAttributes) {
+        try {
+            loanService.returnBook(loanId, bookId);
+            redirectAttributes.addFlashAttribute("successMessage", "Book returned successfully.");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+        }
+
+        return "redirect:/book/return";
     }
 
 }
