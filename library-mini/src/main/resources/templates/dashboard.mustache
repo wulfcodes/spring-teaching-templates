@@ -1,0 +1,121 @@
+{{>partials/header}}
+
+<div class="container-fluid">
+    <div class="row">
+
+        {{>partials/sidebar}}
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+            <div class="page-header">
+                <h1 class="h2"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h1>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+
+                <div class="col-md-3">
+                    <div class="card text-white stat-card primary mb-3">
+                        <div class="card-body">
+                            <i class="bi bi-book-fill stat-icon"></i>
+                            <h5 class="card-title">Total Books</h5>
+                            <p class="card-text">{{stats.totalBooks}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-white stat-card warning mb-3">
+                        <div class="card-body">
+                            <i class="bi bi-arrow-right-circle-fill stat-icon"></i>
+                            <h5 class="card-title">Books Issued</h5>
+                            <p class="card-text">{{stats.booksIssued}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-white stat-card success mb-3">
+                        <div class="card-body">
+                            <i class="bi bi-arrow-left-circle-fill stat-icon"></i>
+                            <h5 class="card-title">Books Due</h5>
+                            <p class="card-text">{{stats.booksDue}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card text-white stat-card info mb-3">
+                        <div class="card-body">
+                            <i class="bi bi-people-fill stat-icon"></i>
+                            <h5 class="card-title">Total Users</h5>
+                            <p class="card-text">{{stats.totalUsers}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Recently Issued Books -->
+            <h4 class="section-title">Currently Issued Books</h4>
+
+            <div class="table-container">
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Member</th>
+                            <th>Issued On</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {{#loans}}
+                            <tr>
+                                <td>
+                                    <strong>{{title}}</strong>
+                                    <div class="text-muted small">
+                                        ISBN: <code>{{isbn}}</code>
+                                    </div>
+                                </td>
+
+                                <td>{{fullName}}</td>
+
+                                <td>{{issueDate}}</td>
+                                <td>{{dueDate}}</td>
+
+                                <td>
+                                    {{#isOverdue}}
+                                        <span class="badge bg-danger text-dark">{{status}}</span>
+                                    {{/isOverdue}}
+
+                                    {{#isLastday}}
+                                        <span class="badge bg-warning text-dark">{{status}}</span>
+                                    {{/isLastday}}
+
+                                    {{#isOk}}
+                                        <span class="badge bg-success text-dark">{{status}}</span>
+                                    {{/isOk}}
+                                </td>
+                            </tr>
+                        {{/loans}}
+                        </tbody>
+                    </table>
+
+                    {{^loans}}
+                        <div>No books issued</div>
+                    {{/loans}}
+
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+</div>
+
+{{>partials/footer}}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management - Register</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/auth.css">
+</head>
+
+<body class="auth-page">
+
+<div class="login-container">
+    <div class="login-card">
+
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="bi bi-person-plus"></i>
+            </div>
+            <h3 class="login-title">Register</h3>
+            <p class="login-subtitle">Create a new library account</p>
+        </div>
+
+        {{#errorMessage}}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{errorMessage}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {{/errorMessage}}
+
+        {{#successMessage}}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{successMessage}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {{/successMessage}}
+
+        <form action="/auth/register" method="post">
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name">
+                <label for="fullName"><i class="bi bi-person-badge me-2"></i>Full Name</label>
+                <div class="text-danger small" id="fullNameError"></div>
+            </div>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                <label for="email"><i class="bi bi-envelope-fill me-2"></i>Email</label>
+                <div class="text-danger small" id="emailError"></div>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="password"><i class="bi bi-lock-fill me-2"></i>Password</label>
+                <div class="text-danger small" id="passwordError"></div>
+            </div>
+
+            <button type="submit" class="btn btn-login">
+                <i class="bi bi-check-circle-fill me-2"></i>Create Account
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="/auth/sign-in" class="text-decoration-none">Already have an account? Sign In</a>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+    function setRegisterValidation() {
+        const form = document.querySelector('.login-container form');
+        if (!form) return;
+
+        form.addEventListener('submit', function(event) {
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            const fullNameError = document.getElementById('fullNameError');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+            fullNameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
+            confirmPasswordError.textContent = '';
+
+            let hasError = false;
+
+            if (!fullName) {
+                fullNameError.textContent = "Please enter your full name";
+                hasError = true;
+            }
+
+            if (!email) {
+                emailError.textContent = "Please enter an email";
+                hasError = true;
+            }
+
+            if (!password) {
+                passwordError.textContent = "Please enter a password";
+                hasError = true;
+            }
+
+            if (password !== confirmPassword) {
+                confirmPasswordError.textContent = "Passwords do not match";
+                hasError = true;
+            }
+
+            if (hasError) {
+                event.preventDefault();
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setRegisterValidation);
+    } else {
+        setRegisterValidation();
+    }
+</script>
+
+</body>
+</html>
