@@ -23,7 +23,7 @@ public class StudentDao1 {
     @Transactional
     public int save(Student student) {
         String query = """
-                INSERT INTO student(first_name, last_name, email, age, percentage, is_enrolled)
+                INSERT INTO students(first_name, last_name, email, age, percentage, is_enrolled)
                 VALUES (?, ?, ?, ?, ?, ?)
                """;
 
@@ -41,7 +41,7 @@ public class StudentDao1 {
     // Find
     public Student findById(Long id) {
         return jdbcTemplate.queryForObject(
-            "SELECT * FROM student WHERE id = ?",
+            "SELECT * FROM students WHERE id = ?",
             studentRowMapper,
             id
         );
@@ -49,7 +49,7 @@ public class StudentDao1 {
 
     public Map<String, Object> findByIdRaw(Long id) {
         return jdbcTemplate.queryForMap(
-            "SELECT * FROM student WHERE id = ?",
+            "SELECT * FROM students WHERE id = ?",
             id
         );
     }
@@ -67,14 +67,14 @@ public class StudentDao1 {
     @Transactional
     public int updateEmail(Long id, String newEmail) {
         return jdbcTemplate.update(
-            "UPDATE student SET email = ? WHERE id = ?",
+            "UPDATE students SET email = ? WHERE id = ?",
             newEmail, id
         );
     }
 
     // Delete
     public int deleteById(Long id) {
-        return jdbcTemplate.update("DELETE FROM student WHERE id = ?", id);
+        return jdbcTemplate.update("DELETE FROM students WHERE id = ?", id);
     }
 
 
@@ -89,14 +89,14 @@ public class StudentDao1 {
     // Find Multiple
     public List<Student> findEnrolledStudents() {
         return jdbcTemplate.query(
-            "SELECT * FROM student WHERE is_enrolled = true",
+            "SELECT * FROM students WHERE is_enrolled = true",
             studentRowMapper
         );
     }
 
     public List<Map<String, Object>> findEnrolledStudentsRaw() {
         return jdbcTemplate.queryForList(
-            "SELECT * FROM student WHERE is_enrolled = true"
+            "SELECT * FROM students WHERE is_enrolled = true"
         );
     }
 
@@ -104,7 +104,7 @@ public class StudentDao1 {
     // Find One
     public Student findByEmail(String email) {
         return jdbcTemplate.queryForObject(
-            "SELECT * FROM student WHERE email = ?",
+            "SELECT * FROM students WHERE email = ?",
             studentRowMapper,
             email
         );
@@ -113,7 +113,7 @@ public class StudentDao1 {
 
     public String findEmailRaw(String email) {
         return jdbcTemplate.queryForObject(
-            "SELECT email FROM student WHERE email = ?",
+            "SELECT email FROM students WHERE email = ?",
             String.class,
             email
         );
@@ -122,7 +122,7 @@ public class StudentDao1 {
     // Find Multiple
     public List<Student> findByAgeGreaterThan(int age) {
         return jdbcTemplate.query(
-            "SELECT * FROM student WHERE age > ?",
+            "SELECT * FROM students WHERE age > ?",
             studentRowMapper,
             age
         );
@@ -130,7 +130,7 @@ public class StudentDao1 {
 
     public List<Integer> findAgesGreaterThanRaw(int age) {
         return jdbcTemplate.queryForList(
-            "SELECT age FROM student WHERE age > ?",
+            "SELECT age FROM students WHERE age > ?",
             Integer.class,
             age
         );

@@ -40,14 +40,14 @@ public class StudentDao2 {
 
     // Find
     public Student findById(Long id) {
-        return jdbcClient.sql("SELECT * FROM student WHERE id = :id")
+        return jdbcClient.sql("SELECT * FROM students WHERE id = :id")
                          .param("id", id)
                          .query(studentRowMapper)
                          .single();
     }
 
     public Map<String, Object> findByIdRaw(Long id) {
-        return jdbcClient.sql("SELECT * FROM student WHERE id = :id")
+        return jdbcClient.sql("SELECT * FROM students WHERE id = :id")
                          .param("id", id)
                          .query()
                          .singleRow();
@@ -69,7 +69,7 @@ public class StudentDao2 {
     // Update a field
     @Transactional
     public int updateEmail(Long id, String newEmail) {
-        return jdbcClient.sql("UPDATE student SET email = :email WHERE id = :id")
+        return jdbcClient.sql("UPDATE students SET email = :email WHERE id = :id")
                          .param("email", newEmail)
                          .param("id", id)
                          .update();
@@ -77,7 +77,7 @@ public class StudentDao2 {
 
     // Delete
     public int deleteById(Long id) {
-        return jdbcClient.sql("DELETE FROM student WHERE id = :id")
+        return jdbcClient.sql("DELETE FROM students WHERE id = :id")
                          .param("id", id)
                          .update();
     }
@@ -91,27 +91,27 @@ public class StudentDao2 {
 
    // Find Multiple
     public List<Student> findEnrolledStudents() {
-        return jdbcClient.sql("SELECT * FROM student WHERE is_enrolled = true")
+        return jdbcClient.sql("SELECT * FROM students WHERE is_enrolled = true")
                          .query(studentRowMapper)
                          .list();
     }
 
     public List<Map<String, Object>> findEnrolledStudentsRaw() {
-        return jdbcClient.sql("SELECT * FROM student WHERE is_enrolled = true")
+        return jdbcClient.sql("SELECT * FROM students WHERE is_enrolled = true")
                          .query()
                          .listOfRows();
     }
 
     // Find One
     public Student findByEmail(String email) {
-        return jdbcClient.sql("SELECT * FROM student WHERE email = :email")
+        return jdbcClient.sql("SELECT * FROM students WHERE email = :email")
                          .param("email", email)
                          .query(studentRowMapper)
                          .single();
     }
 
     public String findEmailRaw(String email) {
-        return jdbcClient.sql("SELECT email FROM student WHERE email = :email")
+        return jdbcClient.sql("SELECT email FROM students WHERE email = :email")
                          .param("email", email)
                          .query(String.class)
                          .single();
@@ -119,14 +119,14 @@ public class StudentDao2 {
 
     // Find Multiple
     public List<Student> findByAgeGreaterThan(int age) {
-        return jdbcClient.sql("SELECT * FROM student WHERE age > :age")
+        return jdbcClient.sql("SELECT * FROM students WHERE age > :age")
                          .param("age", age)
                          .query(studentRowMapper)
                          .list();
     }
 
     public List<Integer> findAgesGreaterThanRaw(int age) {
-        return jdbcClient.sql("SELECT age FROM student WHERE age > :age")
+        return jdbcClient.sql("SELECT age FROM students WHERE age > :age")
                          .param("age", age)
                          .query(Integer.class)
                          .list();
