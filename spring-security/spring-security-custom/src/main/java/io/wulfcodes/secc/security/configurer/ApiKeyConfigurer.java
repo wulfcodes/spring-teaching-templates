@@ -19,7 +19,7 @@ import io.wulfcodes.secc.security.entrypoint.ApiKeyAuthenticationEntryPoint;
 
 public class ApiKeyConfigurer extends AbstractHttpConfigurer<ApiKeyConfigurer, HttpSecurity> {
     private AuthenticationEntryPoint authenticationEntryPoint = new ApiKeyAuthenticationEntryPoint();
-    private RequestMatcher apiKeyMatcher = new RequestHeaderRequestMatcher("X-Api-Key");
+    private RequestMatcher apiKeyMatcher = new RequestHeaderRequestMatcher("X-API-Key");
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource;
     private SecurityContextRepository securityContextRepository;
 

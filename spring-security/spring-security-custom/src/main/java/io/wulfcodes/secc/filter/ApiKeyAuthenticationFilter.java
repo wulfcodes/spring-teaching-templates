@@ -23,7 +23,7 @@ public class ApiKeyAuthenticationFilter extends OncePerRequestFilter {
     private AuthenticationManager authenticationManager;
     private AuthenticationEntryPoint authenticationEntryPoint;
     private AuthenticationConverter authenticationConverter = request -> {
-        String apiKey = request.getHeader("X-Api-Key");
+        String apiKey = request.getHeader("X-API-Key");
         return StringUtils.hasLength(apiKey) ? new ApiKeyAuthenticationToken(apiKey) : null;
     };
 
