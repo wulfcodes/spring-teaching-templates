@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -49,13 +50,21 @@ public class InputController {
     }
 
     @RequestMapping(path = "/contact2", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void contactUs2(@ModelAttribute ContactForm contactForm, @RequestHeader(HttpHeaders.USER_AGENT) String userAgentHeader) {
+    public void contactUs2(
+        @ModelAttribute
+        ContactForm contactForm,
+        @RequestHeader(HttpHeaders.USER_AGENT)
+        String userAgentHeader,
+        @CookieValue("JSESSIONID")
+        String sessionId
+    ) {
         System.out.println("""
             User Contacted Second from %s
             Name: %s
             Email: %s
-            Message: %s
-            """.formatted(userAgentHeader, contactForm.getName(), contactForm.getEmail(), contactForm.getMessage()));
+            Message: %s,
+            SessionId: %s
+            """.formatted(userAgentHeader, contactForm.getName(), contactForm.getEmail(), contactForm.getMessage(), sessionId));
     }
 
     @PostMapping(path = "/upload-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

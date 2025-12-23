@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,7 +104,14 @@ public class OutputController {
         return "redirect:/demo1";   // same as RedirectView
     }
 
-    @GetMapping("")
+    /* Implicit View Resolution -> Status Code */
+
+    @PostMapping("/perform-task")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String performTask() {
+        System.out.println("Task is accepted, returning to homepage");
+        return "index";
+    }
 
     @GetMapping("/welcome")
     @ResponseStatus(HttpStatus.MULTIPLE_CHOICES)
@@ -111,6 +119,23 @@ public class OutputController {
         if (Objects.isNull("lang"))
             return "redirect:/welcome.html";
         return "redirect:/welcome-" + lang + ".html";
+    }
+
+    /* Implicit View Resolution -> Working with Models */
+
+    @GetMapping("/anon")
+    public String getUser(
+        Model model
+    ) {
+        model.addAttribute("name", "Anonymous");
+        model.addAttribute("username", "AnonUser");
+        model.addAttribute("email", "anon@hotmail.com");
+        return "profile";
+    }
+
+    @ModelAttribute("bio")
+    public String bio() {
+        return "This is default bio added in all Model attribute, if not present";
     }
 
 }
