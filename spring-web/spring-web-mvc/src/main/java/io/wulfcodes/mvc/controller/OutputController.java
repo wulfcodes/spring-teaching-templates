@@ -195,6 +195,7 @@ public class OutputController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(IllegalArgumentException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
         return "error";
