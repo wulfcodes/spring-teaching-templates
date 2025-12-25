@@ -1,24 +1,28 @@
 package io.wulfcodes.mvc.controller;
 
+import java.util.List;
 import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.InternalResourceView;
 import org.springframework.web.servlet.view.RedirectView;
 import io.wulfcodes.mvc.model.Product;
 
 @Controller
-@RequestMapping("/web")
+//@RequestMapping("/web")
 public class OutputController {
 
     /* View Types */
@@ -128,7 +132,6 @@ public class OutputController {
         Model model
     ) {
         model.addAttribute("name", "Anonymous");
-        model.addAttribute("username", "AnonUser");
         model.addAttribute("email", "anon@hotmail.com");
         return "profile";
     }
@@ -136,6 +139,65 @@ public class OutputController {
     @ModelAttribute("bio")
     public String bio() {
         return "This is default bio added in all Model attribute, if not present";
+    }
+
+    @ModelAttribute("username")
+    public String username() {
+        return "AnonUser";
+    }
+
+    @GetMapping("/preferences")
+    public String preferences(
+        @RequestParam(name = "username", required = false)
+        String username,
+        @RequestParam(defaultValue = "false")
+        boolean preference1,
+        @RequestParam(defaultValue = "false")
+        boolean preference2,
+        Model model
+    ) {
+        if (username != null)
+            model.addAttribute("username", username);
+        if (preference1)
+            model.addAttribute("preference1", preference1);
+        if (preference2)
+            model.addAttribute("preference2", preference2);
+
+        return "preferences";
+    }
+
+    @GetMapping("/login-redirect")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String loginRedirect(
+        @RequestParam(defaultValue = "false")
+        boolean preference1,
+        @RequestParam(defaultValue = "false")
+        boolean preference2,
+        RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("preference1", preference1);
+        redirectAttributes.addFlashAttribute("preference2", preference2);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+
+    @GetMapping(path = "/text", produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String textContent(@RequestParam(name = "name", required = false) String name) {
+        if (name == null)
+            throw new IllegalArgumentException("Name is not provided");
+        return "Hey there %s, This is a sample text".formatted(name);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error";
     }
 
 }

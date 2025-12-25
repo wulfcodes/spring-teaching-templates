@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Starting Page</title>
+</head>
+<body>
+
+<h2>Hi There, {{username}}</h2>
+
+<form id="prefForm" method="post">
+    <label>
+        <input type="checkbox" {{#preference1}}checked{{/preference1}}>
+        preference1
+    </label>
+
+    <label>
+        <input type="checkbox" {{#preference2}}checked{{/preference2}}>
+        preference2
+    </label>
+
+    <p>You must login if you want to save the differences</p>
+
+    <button type="button" onclick="loginPopup()">Login</button>
+    <button formaction="/save" type="submit">Save</button>
+</form>
+
+<script>
+    function loginPopup() {
+      const form = document.getElementById("prefForm");
+      const params = new URLSearchParams(new FormData(form)).toString();
+      window.open("/login-redirect?" + params, "login_popup", "width=400,height=300");
+    }
+</script>
+
+
+
+</body>
+</html>

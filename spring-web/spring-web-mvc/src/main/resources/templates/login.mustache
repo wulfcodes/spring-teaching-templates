@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Starting Page</title>
+</head>
+<body>
+<form method="get" action="/preferences">
+    <input name="username" placeholder="Username">
+    <input name="password" type="password" placeholder="Password">
+
+    <label>
+        <input name="preference1" type="checkbox" {{#preference1}}checked{{/preference1}}>
+        preference1
+    </label>
+
+    <label>
+        <input name="preference2" type="checkbox" {{#preference2}}checked{{/preference2}}>
+        preference2
+    </label>
+
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
