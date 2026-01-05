@@ -41,7 +41,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
     List<Teacher> findByIsQualifiedFalse();
 
     List<Teacher> findByNameOrderByAgeAsc(String name);
-    List<Teacher> findByAgeOrderBySalaryDesc(String name);
+    List<Teacher> findByAgeOrderBySalaryDesc(Integer age);
 
     List<Teacher> findBySalaryIsNull();
     List<Teacher> findBySalaryIsNotNull();
