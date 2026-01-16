@@ -6,7 +6,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RetriableService {
+public class RetryableService {
     @Retryable(
         maxAttempts = 5,
         backoff = @Backoff(delay = 2000, multiplier = 2), // 2sec -> 4sec -> 8sec -> 16sec -> 32sec

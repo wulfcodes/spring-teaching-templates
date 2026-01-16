@@ -1,5 +1,6 @@
 package com.dj.jpa.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,10 +15,11 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Table(name = "grades")
 public class Grade implements Serializable {
 
+    @Serial
     private final long serialVersionUID = 4857161617975081156L;
 
     @Version
-    private int version;
+    private Integer version;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
