@@ -1,6 +1,6 @@
 package io.wulfcodes.secc.dao;
 
-import io.wulfcodes.secc.model.Todo;
+import io.wulfcodes.secc.model.po.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;

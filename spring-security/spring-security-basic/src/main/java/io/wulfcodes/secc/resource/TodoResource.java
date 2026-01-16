@@ -1,6 +1,6 @@
 package io.wulfcodes.secc.resource;
 
-import io.wulfcodes.secc.model.Todo;
+import io.wulfcodes.secc.model.po.Todo;
 import io.wulfcodes.secc.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

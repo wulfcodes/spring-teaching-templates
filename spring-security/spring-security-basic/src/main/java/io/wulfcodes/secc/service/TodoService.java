@@ -1,9 +1,9 @@
 package io.wulfcodes.secc.service;
 
+import io.wulfcodes.secc.common.context.UserContext;
 import io.wulfcodes.secc.dao.TodoDao;
-import io.wulfcodes.secc.model.Todo;
+import io.wulfcodes.secc.model.po.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,8 +15,11 @@ public class TodoService {
     @Autowired
     private TodoDao todoDao;
 
+    @Autowired
+    private UserContext userContext;
+
     private String getCurrentUsername() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return userContext.getUsername();
     }
 
     public List<Todo> getAll() {
@@ -24,14 +27,13 @@ public class TodoService {
     }
 
     public Todo getById(Long id) {
-        return todoDao.findById(id)
-                      .orElse(null);
+        return todoDao.findById(id, getCurrentUsername())
+                .orElse(null);
     }
 
     public Todo add(Todo todo) {
         // Auto-assign the logged-in user
         todo.setUsername(getCurrentUsername());
-
 
         return todoDao.create(todo);
     }
@@ -44,8 +46,7 @@ public class TodoService {
     // Suggestions (Dummy data, no DB interaction)
     public List<Todo> suggestTodos() {
         return List.of(
-            new Todo(0L, "system", "Buy groceries", false, LocalDate.now()),
-            new Todo(0L, "system", "Finish homework", false, LocalDate.now().plusDays(1))
-        );
+                new Todo(0L, "system", "Buy groceries", false, LocalDate.now()),
+                new Todo(0L, "system", "Finish homework", false, LocalDate.now().plusDays(1)));
     }
 }

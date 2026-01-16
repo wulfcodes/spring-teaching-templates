@@ -1,4 +1,4 @@
-package io.wulfcodes.secc.model;
+package io.wulfcodes.secc.model.po;
 
 import java.time.LocalDate;
 
