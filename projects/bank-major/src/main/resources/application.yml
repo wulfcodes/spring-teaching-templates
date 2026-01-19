@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: bank-major
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+app:
+  test-property: value

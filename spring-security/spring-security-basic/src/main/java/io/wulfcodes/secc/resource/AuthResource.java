@@ -16,8 +16,8 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
-public class UserResource {
+@RequestMapping("/api/auth")
+public class AuthResource {
 
     @Autowired
     private UserDetailsManager userDetailsManager;

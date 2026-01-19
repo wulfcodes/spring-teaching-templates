@@ -1,6 +1,6 @@
 package io.wulfcodes.secc.config;
 
-import javax.sql.DataSource;
+import javax.crypto.spec.SecretKeySpec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,17 +8,21 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private static final String HS256_KEY = "wwlxRfHEXCHHCXLmW1BYqwA9ks5PfA6tCXSQPjf23ME"; // 256 bit key -> https://jwtsecretkeygenerator.com/
 
     @Bean
     public SecurityFilterChain basicSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -29,19 +33,22 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .oauth2ResourceServer(oauth2Configurer -> oauth2Configurer.jwt(Customizer.withDefaults()))
+            .httpBasic(HttpBasicConfigurer::disable)
             .formLogin(FormLoginConfigurer::disable)
-            .httpBasic(Customizer.withDefaults())
             .build();
     }
 
     @Bean
-    public UserDetailsService jdbcUserDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+    public JwtDecoder jwtDecoder() {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(HS256_KEY.getBytes(), MacAlgorithm.HS256.getName());
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
+                               .macAlgorithm(MacAlgorithm.HS256)
+                               .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public JwtEncoder jwtEncoder() {
+        return new NimbusJwtEncoder(new ImmutableSecret<>(HS256_KEY.getBytes()));
     }
-
 }
