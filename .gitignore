@@ -3,4 +3,5 @@ target/
 .mvn/
 .m2/
 .vscode/
+__resources__/
 
