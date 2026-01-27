@@ -25,7 +25,7 @@ public class SecurityConfig {
     private static final String HS256_KEY = "wwlxRfHEXCHHCXLmW1BYqwA9ks5PfA6tCXSQPjf23ME"; // 256 bit key -> https://jwtsecretkeygenerator.com/
 
     @Bean
-    public SecurityFilterChain basicSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()

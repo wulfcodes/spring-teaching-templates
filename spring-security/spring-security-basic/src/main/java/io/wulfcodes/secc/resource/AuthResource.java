@@ -39,7 +39,7 @@ public class AuthResource {
         return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }
 
-    @PutMapping("/change-password")
+    @PutMapping("/password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String username = currentUser.getName();
