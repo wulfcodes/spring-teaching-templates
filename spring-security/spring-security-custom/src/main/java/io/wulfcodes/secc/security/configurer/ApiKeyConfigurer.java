@@ -7,17 +7,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import io.wulfcodes.secc.filter.ApiKeyAuthenticationFilter;
 import io.wulfcodes.secc.security.entrypoint.ApiKeyAuthenticationEntryPoint;
 
 public class ApiKeyConfigurer extends AbstractHttpConfigurer<ApiKeyConfigurer, HttpSecurity> {
+
     private AuthenticationEntryPoint authenticationEntryPoint = new ApiKeyAuthenticationEntryPoint();
     private RequestMatcher apiKeyMatcher = new RequestHeaderRequestMatcher("X-API-Key");
     private AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource;

@@ -41,7 +41,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain apiKeySecurityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
+        return http.authorizeHttpRequests(requests ->
+                       requests.requestMatchers("/api/users").permitAll()
+                               .anyRequest().authenticated()
+                   )
                    .with(new ApiKeyConfigurer(), Customizer.withDefaults())
                    .build();
     }

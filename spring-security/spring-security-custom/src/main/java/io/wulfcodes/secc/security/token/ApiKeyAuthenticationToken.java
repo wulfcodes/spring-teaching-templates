@@ -16,7 +16,7 @@ public class ApiKeyAuthenticationToken extends AbstractAuthenticationToken {
         setAuthenticated(false);
     }
 
-    public ApiKeyAuthenticationToken(String username, String apiKey, Collection<? extends  GrantedAuthority> authorities) {
+    public ApiKeyAuthenticationToken(String username, String apiKey, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.username = username;
         this.apiKey = apiKey;
@@ -35,10 +35,8 @@ public class ApiKeyAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        if (isAuthenticated) {
-            throw new IllegalArgumentException(
-                    "Cannot set this token to trusted - use constructor which takes GrantedAuthority list instead");
-        }
+        if (isAuthenticated)
+            throw new IllegalArgumentException("Cannot set this token to trusted - use constructor which takes GrantedAuthority list instead");
         super.setAuthenticated(false);
     }
 
