@@ -38,7 +38,7 @@ public class VariousService {
         System.out.println("[Cached] Processing webhook on " + Thread.currentThread().getName());
 
         // Quick validation and DB save (Short duration)
-        try { Thread.sleep(50); } catch (InterruptedException e) { }
+        try { Thread.sleep(50); } catch (InterruptedException ignored) { }
     }
 
     // =================================================================
