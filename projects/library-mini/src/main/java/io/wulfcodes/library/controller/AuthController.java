@@ -16,6 +16,7 @@ import io.wulfcodes.library.exception.UserNotFoundException;
 import io.wulfcodes.library.model.ro.AuthData;
 import io.wulfcodes.library.model.dto.UserData;
 import io.wulfcodes.library.service.spec.AuthService;
+import io.wulfcodes.library.service.spec.UserService;
 
 @Controller
 @RequestMapping("/auth")
@@ -24,14 +25,26 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/sign-up")
     public String registerPage() {
         return "register";
     }
 
     @PostMapping("/sign-up")
-    public String registerUser() {
-        return null;
+    public String registerUser(
+            @ModelAttribute UserData userData,
+            RedirectAttributes redirectAttributes) {
+        try {
+            userService.registerUser(userData);
+            redirectAttributes.addFlashAttribute("successMessage", "Registration successful. Please login.");
+            return "redirect:/auth/sign-in";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Registration failed: " + e.getMessage());
+            return "redirect:/auth/sign-up";
+        }
     }
 
     @GetMapping("/sign-in")
@@ -41,18 +54,15 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public String loginUser(
-        @ModelAttribute
-        AuthData authData,
-        HttpSession httpSession,
-        RedirectAttributes redirectAttributes
-    ) {
-        UserData userData = (UserData)httpSession.getAttribute("userData");
+            @ModelAttribute AuthData authData,
+            HttpSession httpSession,
+            RedirectAttributes redirectAttributes) {
+        UserData userData = (UserData) httpSession.getAttribute("userData");
 
         if (userData == null) {
             userData = authService.loginUser(authData.email(), authData.password());
             httpSession.setAttribute("userData", userData);
         }
-
 
         redirectAttributes.addFlashAttribute("user", userData);
         return "redirect:/dashboard";

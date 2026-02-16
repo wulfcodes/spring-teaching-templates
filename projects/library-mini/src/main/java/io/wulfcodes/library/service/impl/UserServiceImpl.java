@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserData getUserById(Long userId) {
         return userDao.findById(userId)
-                      .map(userMapper::toData)
-                      .orElseThrow(() -> new UserNotFoundException("User not found."));
+                .map(userMapper::toData)
+                .orElseThrow(() -> new UserNotFoundException("User not found."));
     }
 
     @Override
@@ -38,13 +38,20 @@ public class UserServiceImpl implements UserService {
     public UserData loginUser(String email, String password) {
         Optional<User> userOptional = Optional.ofNullable(userDao.findByEmailAndPassword(email, password));
         return userOptional.map(userMapper::toData)
-                           .orElseThrow(() -> new UserNotFoundException("Invalid user credentials."));
+                .orElseThrow(() -> new UserNotFoundException("Invalid user credentials."));
     }
 
     @Override
     @Async
     public CompletableFuture<Long> getUsersCountAsync() {
         return CompletableFuture.completedFuture(userDao.getUsersCount());
+    }
+
+    @Override
+    public UserData registerUser(UserData userData) {
+        User user = userMapper.toEntity(userData);
+        User savedUser = userDao.save(user);
+        return userMapper.toData(savedUser);
     }
 
 }

@@ -1,15 +1,12 @@
 package io.wulfcodes.secc.resource;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import io.wulfcodes.secc.model.ro.AuthRequest;
 import io.wulfcodes.secc.model.ro.ChangePasswordRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -21,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthResource {
-
-    private static final String ADMIN_KEY = "my-secret-admin-key";
 
     @Autowired
     private UserDetailsManager userDetailsManager;
@@ -37,13 +32,7 @@ public class AuthResource {
         }
 
         String hashedPassword = passwordEncoder.encode(request.password());
-
-        Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_USER"));
-        if (ADMIN_KEY.equals(request.adminKey()))
-            roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
-        User user = new User(request.username(), hashedPassword, roles);
+        User user = new User(request.username(), hashedPassword, Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
 
         userDetailsManager.createUser(user);
 

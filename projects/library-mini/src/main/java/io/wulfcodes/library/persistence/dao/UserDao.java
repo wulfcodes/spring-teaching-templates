@@ -13,7 +13,9 @@ import io.wulfcodes.library.persistence.repo.UserRepository;
 @Repository
 public class UserDao {
 
-    private final RowMapper<User> userRowMapper = (resultSet, rowNum) -> new User(resultSet.getLong("id"), resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("password"), resultSet.getString("phone_no"), resultSet.getString("address"));
+    private final RowMapper<User> userRowMapper = (resultSet, rowNum) -> new User(resultSet.getLong("id"),
+            resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"),
+            resultSet.getString("password"), resultSet.getString("phone_no"), resultSet.getString("address"));
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -45,5 +47,8 @@ public class UserDao {
         return userRepository.count();
     }
 
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 
 }

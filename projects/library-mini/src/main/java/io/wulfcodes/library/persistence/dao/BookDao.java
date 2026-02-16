@@ -14,14 +14,14 @@ import io.wulfcodes.library.persistence.repo.BookRepository;
 public class BookDao {
 
     private final RowMapper<Book> bookRowMapper = (resultSet, rowNumber) -> new Book(
-        resultSet.getLong("id"),
-        resultSet.getString("title"),
-        resultSet.getString("author"),
-        resultSet.getString("category"),
-        resultSet.getString("isbn"),
-        resultSet.getString("publisher"),
-        resultSet.getInt("total_copies"),
-        resultSet.getInt("available_copies"),
+            resultSet.getLong("id"),
+            resultSet.getString("title"),
+            resultSet.getString("author"),
+            resultSet.getString("category"),
+            resultSet.getString("isbn"),
+            resultSet.getString("publisher"),
+            resultSet.getInt("total_copies"),
+            resultSet.getInt("available_copies"),
         resultSet.getBoolean("is_available")
     );
 
@@ -43,27 +43,34 @@ public class BookDao {
         String query = "SELECT * FROM books WHERE available_copies > 0 AND is_available = true";
 
         return jdbcClient.sql(query)
-                         .query(bookRowMapper)
-                         .list();
+                .query(bookRowMapper)
+                .list();
     }
 
     @Transactional
     public int updateAvailableCopies(Long bookId, int delta) {
         String query = """
-                UPDATE books
-                SET available_copies = available_copies + :delta
-                WHERE id = :id
-            """;
+                    UPDATE books
+                    SET available_copies = available_copies + :delta
+                    WHERE id = :id
+                """;
 
         return jdbcClient.sql(query)
-                         .param("id", bookId)
-                         .param("delta", delta)
-                         .update();
+                .param("id", bookId)
+                .param("delta", delta)
+                .update();
     }
 
     public long getBooksCount() {
         return bookRepository.count();
     }
 
+    public Book save(Book book) {
+        return bookRepository.save(book);
+    }
+
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
 
 }

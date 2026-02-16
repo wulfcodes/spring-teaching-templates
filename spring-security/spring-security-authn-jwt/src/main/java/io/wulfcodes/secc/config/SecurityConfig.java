@@ -29,7 +29,6 @@ public class SecurityConfig {
         return http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/todos/suggest").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

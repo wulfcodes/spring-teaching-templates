@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import io.wulfcodes.library.model.dto.UserData;
+import io.wulfcodes.library.model.dto.BookData;
 import io.wulfcodes.library.service.spec.BookService;
 import io.wulfcodes.library.service.spec.LoanService;
 
@@ -36,19 +37,48 @@ public class BookController {
         return (UserData) httpSession.getAttribute("userData");
     }
 
+    @GetMapping("/add")
+    public String showAddBook(Model model) {
+        return "add-book";
+    }
+
     @PostMapping("/add")
-    public String addBook() {
-        return null;
+    public String addBook(@ModelAttribute BookData bookData, RedirectAttributes redirectAttributes) {
+        try {
+            bookService.saveBook(bookData);
+            redirectAttributes.addFlashAttribute("successMessage", "Book added successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to add book: " + e.getMessage());
+        }
+        return "redirect:/book/list";
+    }
+
+    @GetMapping("/edit")
+    public String showEditBook(@RequestParam Long bookId, Model model) {
+        model.addAttribute("book", bookService.getBookById(bookId));
+        return "edit-book";
     }
 
     @PostMapping("/edit")
-    public String editBook() {
-        return null;
+    public String editBook(@ModelAttribute BookData bookData, RedirectAttributes redirectAttributes) {
+        try {
+            bookService.updateBook(bookData);
+            redirectAttributes.addFlashAttribute("successMessage", "Book updated successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update book: " + e.getMessage());
+        }
+        return "redirect:/book/list";
     }
 
     @PostMapping("/remove")
-    public String removeBook() {
-        return null;
+    public String removeBook(@RequestParam Long bookId, RedirectAttributes redirectAttributes) {
+        try {
+            bookService.deleteBook(bookId);
+            redirectAttributes.addFlashAttribute("successMessage", "Book removed successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to remove book: " + e.getMessage());
+        }
+        return "redirect:/book/list";
     }
 
     @GetMapping("/issue")
@@ -59,16 +89,12 @@ public class BookController {
 
     @PostMapping("/issue")
     public String issueBook(
-        @RequestParam
-        Long bookId,
-        @RequestParam
-        LocalDate dueDate,
-        @ModelAttribute("user")
-        UserData userData,
-        HttpSession httpSession,
-        RedirectAttributes redirectAttributes,
-        HttpServletResponse httpServletResponse
-    ) {
+            @RequestParam Long bookId,
+            @RequestParam LocalDate dueDate,
+            @ModelAttribute("user") UserData userData,
+            HttpSession httpSession,
+            RedirectAttributes redirectAttributes,
+            HttpServletResponse httpServletResponse) {
         try {
             Long userId = userData.getUserId();
             loanService.issueBook(userId, bookId, dueDate);
@@ -95,11 +121,9 @@ public class BookController {
 
     @PostMapping("/return")
     public String returnBook(
-        @RequestParam("loanId")
-        Long loanId,
-        @RequestParam("bookId")
-        Long bookId,
-        RedirectAttributes redirectAttributes) {
+            @RequestParam("loanId") Long loanId,
+            @RequestParam("bookId") Long bookId,
+            RedirectAttributes redirectAttributes) {
         try {
             loanService.returnBook(loanId, bookId);
             redirectAttributes.addFlashAttribute("successMessage", "Book returned successfully.");

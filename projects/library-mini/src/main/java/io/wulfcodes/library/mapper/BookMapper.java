@@ -15,6 +15,9 @@ public interface BookMapper {
     @Mapping(target = "bookId", source = "id")
     BookData toData(Book book);
 
+    @Mapping(target = "id", source = "bookId")
+    Book toEntity(BookData bookData);
+
     List<BookData> toDataList(Iterable<Book> books);
 
 }
