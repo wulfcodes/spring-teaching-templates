@@ -120,7 +120,7 @@ public class OutputController {
     @GetMapping("/welcome")
     @ResponseStatus(HttpStatus.MULTIPLE_CHOICES)
     public String welcome(@RequestParam(name = "lang", required = false) String lang) {
-        if (Objects.isNull("lang"))
+        if (Objects.isNull(lang))
             return "redirect:/welcome.html";
         return "redirect:/welcome-" + lang + ".html";
     }
