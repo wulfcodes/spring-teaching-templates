@@ -1,0 +1,99 @@
+{{>partials/header}}
+
+<div class="container-fluid">
+    <div class="row">
+
+        {{>partials/sidebar}}
+
+        <main class="col-md-9 ms-sm-auto col-lg-10">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="h2"><i class="bi bi-arrow-left-circle me-2"></i>Return Issued Books</h1>
+                    <p class="text-muted mb-0">Monitor borrowed books and record their safe return.</p>
+                </div>
+            </div>
+
+            {{#sucessMessage}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{sucessMessage}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {{/sucessMessage}}
+
+            {{#errorMessage}}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{errorMessage}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {{/errorMessage}}
+
+            <div class="table-container">
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Issued On</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {{#loans}}
+                            <tr>
+                                <td>
+                                    <strong>{{title}}</strong>
+                                    <div class="text-muted small">
+                                        ISBN: <code>{{isbn}}</code>
+                                    </div>
+                                </td>
+
+
+                                <td>{{issueDate}}</td>
+                                <td>{{dueDate}}</td>
+
+                                <td>
+                                    {{#isOverdue}}
+                                        <span class="badge bg-danger text-dark">{{status}}</span>
+                                    {{/isOverdue}}
+
+                                    {{#isLastday}}
+                                        <span class="badge bg-warning text-dark">{{status}}</span>
+                                    {{/isLastday}}
+
+                                    {{#isOk}}
+                                        <span class="badge bg-success text-dark">{{status}}</span>
+                                    {{/isOk}}
+                                </td>
+
+                                <td>
+                                    <form action="/book/return" method="POST" style="display:inline;">
+                                        <input type="hidden" name="loanId" value="{{loanId}}">
+                                        <input type="hidden" name="bookId" value="{{bookId}}">
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-arrow-return-left me-1"></i>Return
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {{/loans}}
+                        </tbody>
+                    </table>
+
+                    {{^loans}}
+                        <div>No books issued</div>
+                    {{/loans}}
+
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+</div>
+
+{{>partials/footer}}

@@ -34,4 +34,16 @@ public class AiService {
                          .call()
                          .entity(DatabaseRecommendation.class); // This is where the magic happens
     }
+
+    public void askQuestiontoGrumpy(String question) {
+        String response = chatClient.prompt()
+                                    // The System prompt sets the rules
+                                    .system("You are a grumpy, cynical senior developer who hates modern frameworks. Keep your answer to exactly one sentence.")
+                                    // The User prompt asks the question
+                                    .user(question)
+                                    .call()
+                                    .content();
+
+        System.out.println(response);
+    }
 }

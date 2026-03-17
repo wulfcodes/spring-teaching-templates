@@ -1,0 +1,63 @@
+{{>partials/header}}
+
+<div class="container-fluid">
+    <div class="row">
+
+        {{>partials/sidebar}}
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10">
+
+            <div class="page-header">
+                <h1 class="h2">
+                    <i class="bi bi-plus-circle-fill me-2"></i>Add New Book
+                </h1>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <form action="/book/add" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author" name="author" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="category" name="category" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="isbn" class="form-label">ISBN</label>
+                                <input type="text" class="form-control" id="isbn" name="isbn" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="publisher" class="form-label">Publisher</label>
+                                <input type="text" class="form-control" id="publisher" name="publisher" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="totalCopies" class="form-label">Total Copies</label>
+                                <input type="number" class="form-control" id="totalCopies" name="totalCopies" min="1" required>
+                            </div>
+                             <div class="col-md-6">
+                                <label for="availableCopies" class="form-label">Available Copies</label>
+                                <input type="number" class="form-control" id="availableCopies" name="availableCopies" min="0" required>
+                                <div class="form-text">Usually same as Total Copies for new books.</div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary">Add Book</button>
+                                <a href="/book/list" class="btn btn-secondary ms-2">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+{{>partials/footer}}
