@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Iterator;
 import java.util.UUID;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import io.wulfcodes.rest.model.ContactForm;
 import io.wulfcodes.rest.model.Product;
@@ -95,6 +97,8 @@ public class InputController {
 
     @PostMapping(value = "/upload-stream", consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void uploadAsStream(InputStream inputStream) throws Exception {
+        // Better to use Apache Tika
+
         Path projectRoot = Paths.get("").toAbsolutePath();
         Path uploadsDir = projectRoot.resolve("src/main/resources/uploads");
         Files.createDirectories(uploadsDir);
@@ -140,6 +144,18 @@ public class InputController {
             header[1] == 0x50 &&
             header[2] == 0x4E &&
             header[3] == 0x47;
+    }
+
+    @GetMapping("/products/check")
+    public void test(WebRequest webRequest, @RequestBody Product product) {
+        System.out.println(product);
+
+        for (Iterator<String> it = webRequest.getHeaderNames(); it.hasNext(); ) {
+            String header = it.next();
+            System.out.println(header + " " + webRequest.getHeader(header));
+        }
+
+        System.out.println(webRequest.getParameter("type"));
     }
 
 }
