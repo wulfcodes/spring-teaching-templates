@@ -11,7 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class User implements Serializable {
 
     @Serial
-    private static long serialVersionUID = -6143917160323894350L;
+    private static final long serialVersionUID = -6143917160323894350L;
 
     @Id
     private Long id;

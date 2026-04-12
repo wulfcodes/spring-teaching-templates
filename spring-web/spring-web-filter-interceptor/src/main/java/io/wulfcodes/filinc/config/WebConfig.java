@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 
     @Bean
-    public FilterRegistrationBean<TestFilter2> test2FilterRegistationBean() {
+    public FilterRegistrationBean<TestFilter2> test2FilterRegistrationBean() {
         FilterRegistrationBean<TestFilter2> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new TestFilter2());
         registrationBean.addUrlPatterns("/test2");
