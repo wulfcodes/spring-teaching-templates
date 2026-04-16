@@ -24,8 +24,6 @@ public class RateLimitInterceptor implements HandlerInterceptor {
         if (handler instanceof HandlerMethod handlerMethod) {
             RateLimit rateLimit = handlerMethod.getMethodAnnotation(RateLimit.class);
 
-
-
             if (rateLimit != null) {
                 String origin = request.getHeader(HttpHeaders.ORIGIN);
                 int maxRequestCounts = rateLimit.maxRequestCounts();

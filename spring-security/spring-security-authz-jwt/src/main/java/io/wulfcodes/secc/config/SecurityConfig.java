@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -27,12 +28,19 @@ public class SecurityConfig {
 
     private static final String HS256_KEY = "wwlxRfHEXCHHCXLmW1BYqwA9ks5PfA6tCXSQPjf23ME"; // 256 bit key -> https://jwtsecretkeygenerator.com/
 
+    // to use hasRole() method with a different prefix
+    @Bean
+    public static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("SCOPE:");
+    }
+
     @Bean
     public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(CsrfConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .requestMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -50,7 +58,6 @@ public class SecurityConfig {
             .formLogin(FormLoginConfigurer::disable)
             .build();
     }
-
 
 
     @Bean
