@@ -21,7 +21,13 @@ public class ChatController {
     @ResponseBody
     public ResponseEntity<String> chat(@RequestParam("query") String query) {
         String response = chatService.fireQuery(query);
-        return ResponseEntity.ok("Hey There");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/joke")
+    @ResponseBody
+    public ResponseEntity<String> joke(@RequestParam("topic") String topic) {
+        return ResponseEntity.ok(chatService.generateJoke(topic));
     }
 
 }

@@ -37,7 +37,7 @@ public class WebConfig {
             .baseUrl(TYPICODE_BASE_URL)
             .requestFactory(factory)
             .defaultHeader(HttpHeaders.USER_AGENT, "SpringClientDemo/0.0.1-SNAPSHOT (Java 21; Spring Boot 3.5)")
-            .defaultCookie()
+//            .defaultCookie()
             .build();
     }
 
